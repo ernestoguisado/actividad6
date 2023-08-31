@@ -13,7 +13,18 @@ export class HomeComponent {
 
   }
 
-  ngOnInit(){
-    this.arrUsers = this.usersServices.getAll();
+  ngOnInit():void{
+    
+      this.getData();
+    }
+  
+    async getData() : Promise<void> {
+      try {
+      let response = await this.usersServices.getAll();
+      this.arrUsers = response.results;
+      }
+      catch (err) {
+        console.log("error en la petición");
+      }
   }
 }

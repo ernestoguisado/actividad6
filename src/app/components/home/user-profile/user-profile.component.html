@@ -1,0 +1,52 @@
+<!-- <div class="row">
+    <div class="imagen col-12 col-md-6 col-lg-6">
+        <img src="" alt="">
+    </div>
+    <div class="datos col-12 col-md-6 col-lg-4">
+        <h1></h1>
+        <h2>{{userRetrieve.first_name}}</h2>
+        <h2>{{userRetrieve.last_name}}</h2>
+        <div class="nombre-usuario">{{userRetrieve.username}}</div>
+        <div class="email-usuario">{{userRetrieve.email}}</div>
+        <ul class="d-flex flex-lg-row justify-content-around p-2">
+            <li class="list-group-item">
+                <button [routerLink]="['/user',userRetrieve.id]" class="btn btn-light">View</button>
+            </li>
+            <li class="list-group-item">
+                <button class="btn btn-light">Edit</button>
+            </li>
+            <li class="list-group-item">
+                <button class="btn btn-dark">Delete</button>
+            </li>
+        </ul>
+    </div>
+</div>--> 
+
+<div class="row mt-5">
+    <div class="imagen col-12 col-md-6 col-lg-6 d-flex justify-content-end border-end border-3">
+        <img src="https://via.placeholder.com/400x400" alt="">
+    </div>
+    <div class="datos pl-3 col-12 col-md-6 col-lg-4 d-flex flex-column gap-4">
+        <h2>Nombre Usuario</h2>
+        <h2>Apellido Usuario</h2>
+        <div class="nombre-usuario">
+            <span class="fw-bold">Nombre Usuario: </span>
+            <span>Username</span>
+        </div>
+        <div class="email-usuario">
+            <span class="fw-bold">Email: </span>
+            <span>email.faafasf.com</span>
+        </div>
+        <ul class="d-flex flex-lg-row p-2">
+            <li class="list-group-item">
+                <button [routerLink]="['/user',userRetrieve?.id]" class="btn btn-dark disabled">Eliminar</button>
+            </li>
+            <li class="list-group-item">
+                <button class="btn btn-primary disabled">Actualizar</button>
+            </li>
+            <li class="list-group-item">
+                <button [routerLink]="['/home']" class="btn btn-light disabled">Volver al listado</button>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+.imagen {
+    padding-right: 80px;
+}
+
+.datos {
+    margin-left: 70px;
+}
+
+.datos button {
+    border-radius: 0px;
+    padding: 20px;
+    width: 150px;
+}

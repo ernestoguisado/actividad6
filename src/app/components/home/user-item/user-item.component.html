@@ -5,16 +5,13 @@
     </div>
     <ul class="d-flex flex-lg-row justify-content-around p-2">
         <li class="list-group-item">
-            <button class="btn btn-light">Ver</button>
+            <button class="btn btn-light" [routerLink]="['/user',userRetrieve.id]">Ver detalle</button>
         </li>
         <li class="list-group-item">
-            <button class="btn btn-light">Editar</button>
+            <button class="btn btn-light">Actualizar</button>
         </li>
         <li class="list-group-item">
             <button class="btn btn-dark">Borrar</button>
         </li>
     </ul>
-    <div class="card-body border-top">
-        <p class="card-link">Usuario: {{userRetrieve.username}}</p>
-    </div>
 </div>
