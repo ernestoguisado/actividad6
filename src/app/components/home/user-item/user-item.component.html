@@ -1,0 +1,20 @@
+<div class="card item bg-light">
+    <img class="card-img-top" [src]="userRetrieve.image" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title text-center">{{userRetrieve.first_name + " " + userRetrieve.last_name}}</h5>
+    </div>
+    <ul class="d-flex flex-lg-row justify-content-around p-2">
+        <li class="list-group-item">
+            <button class="btn btn-light">Ver</button>
+        </li>
+        <li class="list-group-item">
+            <button class="btn btn-light">Editar</button>
+        </li>
+        <li class="list-group-item">
+            <button class="btn btn-dark">Borrar</button>
+        </li>
+    </ul>
+    <div class="card-body border-top">
+        <p class="card-link">Usuario: {{userRetrieve.username}}</p>
+    </div>
+</div>
