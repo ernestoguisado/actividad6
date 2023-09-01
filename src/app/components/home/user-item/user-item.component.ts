@@ -7,5 +7,5 @@ import { User } from 'src/app/interfaces/user.interface';
   styleUrls: ['./user-item.component.css']
 })
 export class UserItemComponent {
-  @Input() userRetrieve !: User;
+  @Input() userRetrieve : User | any;
 }

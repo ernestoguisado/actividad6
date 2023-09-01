@@ -1,0 +1,56 @@
+<div class="container">
+    <form [formGroup]="formularioUser" (ngSubmit)="getForm()">
+        <div class="form-group my-3">
+            <label for="first_name">Nombre</label>
+            <input formControlName="first_name" type="text" class="form-control" id="first_name" >
+            <p class="error" *ngIf="controlError('first_name', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('first_name', 'minlength')">El nombre es demasiado corto</p>
+        </div>
+        <div class="form-group my-3">
+            <label for="last_name">Apellido</label>
+            <input formControlName="last_name" type="text" class="form-control" id="last_name" >
+            <p class="error" *ngIf="controlError('last_name', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('last_name', 'minlength')">El apellido es demasiado corto</p>
+        </div>
+        <div class="form-group my-3">
+            <label for="username">Username</label>
+            <input formControlName="username" type="text" class="form-control" id="username" >
+            <p class="error" *ngIf="controlError('username', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('username', 'minlength')">El username es demasiado corto</p>
+        </div>
+        <div class="form-group  my-3">
+            <label for="email">Email address</label>
+            <input formControlName="email" type="email" class="form-control" id="email">
+            <p class="error" *ngIf="controlError('email', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('email', 'pattern')">El mail no cumple con las reglas</p>
+        </div>
+        <div class="form-group my-3">
+            <label for="image">Imagen URL</label>
+            <input (input)="updateImage($event)"  formControlName="image" type="text" class="form-control"  id="image" />
+            <p class="error" *ngIf="controlError('image', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('image', 'pattern')">No es una url correcta, porfavor valida la dirección</p>
+            <figure class="my-2">
+                <img [src]="imageProfile" alt="imagen">
+            </figure>
+        </div>
+        <div class="form-group my-3">
+            <label for="password">Contraseña</label>
+            <input formControlName="password" type="password" class="form-control" id="password" >
+            <p class="error" *ngIf="controlError('password', 'required')">No se puede dejar vacío</p>
+
+            <p class="error" *ngIf="controlError('password', 'minlength')">La contraseña es demasiado corta</p>
+        </div>
+        <div class="form-group my-3">
+            <label for="repite_password">Repite la contraseña</label>
+            <input formControlName="repite_password" type="password" class="form-control" id="repite_password" >
+            <p class="error" *ngIf="controlError('repite_password', 'required')">No se puede dejar vacío</p>
+
+        </div>
+        <button type="submit" class="btn btn-primary my-3"  [disabled]="!formularioUser.valid">Enviar</button>
+    </form>
+</div>
