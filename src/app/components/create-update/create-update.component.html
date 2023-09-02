@@ -1,5 +1,12 @@
 <div class="container">
-    <form [formGroup]="formularioUser" (ngSubmit)="getForm()">
+    <app-notifications [message]= "messageNotification" [clases]="clasesNotification" ></app-notifications>
+    <form *ngIf="activeForm" [formGroup]="formularioUser" (ngSubmit)="getForm()">
+        <div *ngIf="isUpdate" class="form-group my-3">
+            <label for="id">ID</label>
+            <input readonly formControlName="id" type="text" class="form-control" id="id" >
+            <p class="error" *ngIf="controlError('id', 'required')">No se puede dejar vacío</p>
+            <p class="error" *ngIf="controlError('id', 'minlength')">El nombre es demasiado corto</p>
+        </div>
         <div class="form-group my-3">
             <label for="first_name">Nombre</label>
             <input formControlName="first_name" type="text" class="form-control" id="first_name" >

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UserCreate } from 'src/app/interfaces/user-create.interface';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -13,17 +12,21 @@ import { UsersService } from 'src/app/services/users.service';
 
 export class CreateUpdateComponent {
   formularioUser : FormGroup;
-  activeForm : boolean;
-  message : string;
-  buttonName : string;
-  imageProfile : string;
+
+  activeForm : boolean = true;
+  buttonName : string = "";
+  imageProfile : string = "";
+  isUpdate : boolean = false;
+  idUpdate : string = "";
+
+  messageNotification : string =  "";
+  clasesNotification : string = "";
+
   constructor(private userService: UsersService,
               private activatedRoute: ActivatedRoute) {
-    this.message = "";
-    this.activeForm = true;
-    this.buttonName = "";
-    this.imageProfile = "";
+
     this.formularioUser = new FormGroup({
+      id: new FormControl("",[]),
       first_name: new FormControl("",[  
         Validators.required,
         Validators.minLength(3)
@@ -56,24 +59,37 @@ export class CreateUpdateComponent {
   }
 
   ngOnInit() : void {
-    try {
+    
     this.activatedRoute.params.subscribe( async (params: any) : Promise<void> => {
       if (params.id) {
-        let response = await this.userService.getById(params.id);
+        this.isUpdate = true;
         this.buttonName = "Actualizar";
-        this.rellenarCamposForm(response);
+        try {
+          let response = await this.userService.getById(params.id);
+          if (!response.error) {
+            this.idUpdate = response._id;
+            this.rellenarCamposForm(response);
+          }else {
+            this.activeForm = false;
+            this.updateNotifications("<h1>" + response.error + "</h1>","p-4 bg-danger");
+
+          }
+        }
+        catch (err) {
+          this.activeForm = false;
+          this.updateNotifications("<h1>Error al realizar la petición</h1>","p-4 bg-danger");
+        }
       } else {
         this.buttonName = "Crear";
       }
-    }) 
-    }
-    //Si algo va mal no mostramos el form y lanzamos error
-    catch (err) {
-      this.activeForm = false;
-      this.message = "Algo ha ido mal al cargar el componente";
-      console.log(err);
-    }
+    })         
   }
+
+
+
+
+
+
 
   validarPassword(valorForm: AbstractControl) {
     const password: string = valorForm.get('password')?.value;
@@ -100,6 +116,10 @@ export class CreateUpdateComponent {
     if (response.id) {
       this.imageProfile = response.image;
       this.formularioUser = new FormGroup({
+        id: new FormControl(response.id,[  
+          Validators.required,
+          Validators.minLength(3)
+        ]),
         first_name: new FormControl(response.first_name,[  
           Validators.required,
           Validators.minLength(3)
@@ -129,28 +149,39 @@ export class CreateUpdateComponent {
           Validators.minLength(3)
         ])
       })
-    } else {
-      this.activeForm = false;
-      this.message = response.error;
     }
   }
   
 
   async getForm() : Promise<void> {
 
-    try {
-      let userToCreate : UserCreate= {
-        "first_name":this.formularioUser.value.first_name,
-        "last_name": this.formularioUser.value.last_name,
-        "email": this.formularioUser.value.email,
-        "username": this.formularioUser.value.username,
-        "password": this.formularioUser.value.password
-      };
+    //Creación
+    if (!this.isUpdate) {
+      try {
+        let userToCreate : User= this.formularioUser.value;
+        let response = await this.userService.createUser(userToCreate);
+        if (response.id) {
+          this.updateNotifications("<p class='mb-0'>Se ha creado correctamente el usuario " + response.username + "</p>","p-3 bg-success");
+        } else {
+          this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+        }
+      } catch {
+        this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+      }
 
-      let response = await this.userService.createUser(userToCreate);
-      console.log(response);
-    } catch {
-      console.log("error alcrear el usuario");
+    //Actualización
+    } else {
+      try {
+        let userToUpdate : User= this.formularioUser.value;
+        let response = await this.userService.updateUser(userToUpdate,this.idUpdate);
+        if (response.id) {
+          this.updateNotifications("<p class='mb-0'>Se ha actualizado correctamente el usuario " + response.username + "</p>","p-3 bg-success");
+        } else {
+          this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+        }
+      } catch {
+        this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+      }
     }
   }
 
@@ -160,4 +191,12 @@ export class CreateUpdateComponent {
     let valorImagen = $event.target.value;
     this.imageProfile = valorImagen;
   }
+
+
+  //Función para los mensajes en las notificaciones
+  updateNotifications(msg: string, clase: string) : void {
+    this.messageNotification = msg;
+    this.clasesNotification = clase;
+  }
+
 }
