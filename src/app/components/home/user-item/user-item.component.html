@@ -11,7 +11,7 @@
             <button class="btn btn-light" [routerLink]="['/updateuser',userRetrieve._id]">Actualizar</button>
         </li>
         <li class="list-group-item">
-            <button class="btn btn-dark">Borrar</button>
+            <button class="btn btn-dark" (click)="deletePost(userRetrieve?.id)" >Eliminar</button>
         </li>
     </ul>
 </div>

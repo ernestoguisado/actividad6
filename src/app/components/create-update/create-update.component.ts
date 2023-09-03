@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -21,6 +21,7 @@ export class CreateUpdateComponent {
 
   messageNotification : string =  "";
   clasesNotification : string = "";
+  router = inject(Router)
 
   constructor(private userService: UsersService,
               private activatedRoute: ActivatedRoute) {
@@ -71,13 +72,13 @@ export class CreateUpdateComponent {
             this.rellenarCamposForm(response);
           }else {
             this.activeForm = false;
-            this.updateNotifications("<h1>" + response.error + "</h1>","p-4 bg-danger");
+            alert( response.error );
 
           }
         }
         catch (err) {
           this.activeForm = false;
-          this.updateNotifications("<h1>Error al realizar la petición</h1>","p-4 bg-danger");
+          alert("Error al realizar la petición");
         }
       } else {
         this.buttonName = "Crear";
@@ -161,12 +162,13 @@ export class CreateUpdateComponent {
         let userToCreate : User= this.formularioUser.value;
         let response = await this.userService.createUser(userToCreate);
         if (response.id) {
-          this.updateNotifications("<p class='mb-0'>Se ha creado correctamente el usuario " + response.username + "</p>","p-3 bg-success");
+          alert("Se ha creado correctamente el usuario ");
+          this.router.navigate(['/home']);
         } else {
-          this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+          alert("Error en la petición");
         }
       } catch {
-        this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+        alert("Error en la petición");
       }
 
     //Actualización
@@ -175,12 +177,13 @@ export class CreateUpdateComponent {
         let userToUpdate : User= this.formularioUser.value;
         let response = await this.userService.updateUser(userToUpdate,this.idUpdate);
         if (response.id) {
-          this.updateNotifications("<p class='mb-0'>Se ha actualizado correctamente el usuario " + response.username + "</p>","p-3 bg-success");
+          alert("Se ha actualizado correctamente el usuario ");
+          this.router.navigate(['/home']);
         } else {
-          this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+          alert("Error en la petición");
         }
       } catch {
-        this.updateNotifications("<p class='mb-0'>Error en la petición</p>","p-3 bg-danger");
+        alert("Error en la petición");
       }
     }
   }
@@ -193,10 +196,6 @@ export class CreateUpdateComponent {
   }
 
 
-  //Función para los mensajes en las notificaciones
-  updateNotifications(msg: string, clase: string) : void {
-    this.messageNotification = msg;
-    this.clasesNotification = clase;
-  }
+  
 
 }

@@ -13,7 +13,9 @@ export class UsersService {
   
 
   getAll(pagina : number = 1): Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(this.endPointUrl));
+    let completeEndpoint :string = `${this.endPointUrl}?page=${pagina}`;
+    console.log(completeEndpoint);
+    return lastValueFrom(this.httpClient.get<any>(completeEndpoint));
   }
 
   getById(id:string) : Promise<any> {
@@ -30,7 +32,7 @@ export class UsersService {
     return lastValueFrom(this.httpClient.put<any>(completeEndpoint,user));
   }
 
-  deleteUser(id:string) {
+  deleteUser(id:number) : Promise<any> {
     let completeEndpoint :string = `${this.endPointUrl}/${id}`;
     return lastValueFrom(this.httpClient.delete<any>(completeEndpoint));
   }

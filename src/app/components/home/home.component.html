@@ -1,7 +1,17 @@
 <section class="container">
     <div class="row">
         <article class="col-12 col-md-6 col-lg-4 mt-4" *ngFor="let user of arrUsers">
-         <app-user-item [userRetrieve]="user"></app-user-item>
+            <app-user-item [userRetrieve]="user"></app-user-item>
         </article>
+    </div>
+    <div class="d-flex justify-content-center pt-5">
+        <nav class="" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li type="button" class="page-item"><a class="pointer page-link p-4" (click)="irPaginaExacta(1)">{{1}}</a></li>
+                <li type="button" class="page-item"><a class="pointer page-link p-4" (click)="irPaginaAtras()">Anterior</a></li>
+                <li type="button" class="page-item"><a class="pointer page-link p-4" (click)="irPaginaAdelante()">Siguiente</a></li>
+                <li type="button" class="page-item"><a class="pointer page-link p-4" (click)="irPaginaExacta(total_paginas)">{{total_paginas}}</a></li>
+            </ul>
+        </nav>
     </div>
 </section>

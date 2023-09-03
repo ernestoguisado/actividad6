@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/interfaces/user.interface';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -10,7 +10,7 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserProfileComponent {
   userRetrieve: User | any;
-
+  router = inject(Router)
   constructor(private userServices: UsersService,
     private activatedRoute: ActivatedRoute) {
 
@@ -28,4 +28,19 @@ export class UserProfileComponent {
     })
     
   }
+
+  async deletePost(id: number): Promise<void> {
+    if (window.confirm('¿Estas seguro de borrar a este usuario?')) {
+        let response = await this.userServices.deleteUser(id);
+        if (response) {
+            alert('Usuario borrado');
+            this.router.navigate(['/home']);
+        } else {
+            alert('Hubo un error al intentar borrar al usuario.');
+        }
+    } else {
+        alert('Operación cancelada');
+    }
+  }
+
 }

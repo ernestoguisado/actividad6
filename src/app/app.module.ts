@@ -12,7 +12,7 @@ import { UserProfileComponent } from './components/home/user-profile/user-profil
 import { HttpClientModule } from '@angular/common/http';
 import { CreateUpdateComponent } from './components/create-update/create-update.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NotificationsComponent } from './components/notifications/notifications.component';
+
 
 @NgModule({
   declarations: [
@@ -22,8 +22,8 @@ import { NotificationsComponent } from './components/notifications/notifications
     HomeComponent,
     UserItemComponent,
     UserProfileComponent,
-    CreateUpdateComponent,
-    NotificationsComponent
+    CreateUpdateComponent
+
   ],
   imports: [
     BrowserModule,

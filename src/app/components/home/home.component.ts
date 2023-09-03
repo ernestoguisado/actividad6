@@ -9,19 +9,45 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class HomeComponent {
   arrUsers: User[] = [];
+  paginaActual: number = 0;
+  total_paginas: number = 0;
   constructor (private usersServices :UsersService) {
 
   }
 
   ngOnInit():void{
     
-      this.getData();
+    this.total_paginas= 99;
+    this.irPaginaAdelante();
     }
   
-    async getData() : Promise<void> {
+    irPaginaAdelante() : void{
+      if (this.paginaActual != 2){
+        this.paginaActual++;
+      }
+      this.getData(this.paginaActual);
+    }
+  
+    irPaginaAtras() : void{
+      if (this.paginaActual != 1){
+        this.paginaActual--;
+      }
+      this.getData(this.paginaActual);
+    }
+  
+    irPaginaExacta(numPag :number = 1) : void{
+      this.paginaActual = numPag;
+      this.getData(this.paginaActual);
+    }
+  
+  
+    async getData(numPag :number = 1) : Promise<void>{
+  
       try {
-      let response = await this.usersServices.getAll();
-      this.arrUsers = response.results;
+        let response = await this.usersServices.getAll(numPag);
+        this.arrUsers = response.results;
+        this.total_paginas = response.total_pages;
+  
       }
       catch (err) {
         console.log("error en la petición");
